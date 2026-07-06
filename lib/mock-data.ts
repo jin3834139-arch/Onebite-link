@@ -1,0 +1,83 @@
+import type { BookmarkLink, Folder } from "./types";
+
+export const folders: Folder[] = [
+  { id: "dev", name: "개발", linkCount: 3 },
+  { id: "design", name: "디자인", linkCount: 2 },
+  { id: "reading", name: "읽을거리", linkCount: 2 },
+  { id: "etc", name: "기타", linkCount: 1 },
+];
+
+export const links: BookmarkLink[] = [
+  {
+    id: "1",
+    folderId: "dev",
+    title: "Next.js Documentation",
+    url: "https://nextjs.org/docs",
+    description: "Next.js 공식 문서에서 최신 기능과 API 사용법을 확인할 수 있어요.",
+    thumbnail: "/next.svg",
+    createdAt: "2026-07-01",
+  },
+  {
+    id: "2",
+    folderId: "dev",
+    title: "MDN Web Docs",
+    url: "https://developer.mozilla.org",
+    description: "웹 표준 기술에 대한 신뢰할 수 있는 레퍼런스 문서 모음.",
+    thumbnail: "/globe.svg",
+    createdAt: "2026-06-28",
+  },
+  {
+    id: "3",
+    folderId: "dev",
+    title: "TypeScript Handbook",
+    url: "https://www.typescriptlang.org/docs/handbook/intro.html",
+    description: "타입스크립트 문법과 활용법을 처음부터 정리한 핸드북.",
+    thumbnail: "/file.svg",
+    createdAt: "2026-06-20",
+  },
+  {
+    id: "4",
+    folderId: "design",
+    title: "Figma Community",
+    url: "https://www.figma.com/community",
+    description: "다른 디자이너들이 공유한 템플릿과 컴포넌트를 둘러보세요.",
+    thumbnail: "/window.svg",
+    createdAt: "2026-06-18",
+  },
+  {
+    id: "5",
+    folderId: "design",
+    title: "Dribbble",
+    url: "https://dribbble.com",
+    description: "UI/UX 인스퍼레이션을 얻을 수 있는 디자인 쇼케이스.",
+    thumbnail: "/globe.svg",
+    createdAt: "2026-06-10",
+  },
+  {
+    id: "6",
+    folderId: "reading",
+    title: "Overreacted",
+    url: "https://overreacted.io",
+    description: "Dan Abramov의 리액트와 프론트엔드에 대한 블로그.",
+    thumbnail: "/file.svg",
+    createdAt: "2026-05-30",
+  },
+  {
+    id: "7",
+    folderId: "reading",
+    title: "CSS-Tricks",
+    url: "https://css-tricks.com",
+    description: "CSS와 프론트엔드 팁을 다루는 아티클 모음.",
+    thumbnail: "/window.svg",
+    createdAt: "2026-05-22",
+  },
+  {
+    id: "8",
+    folderId: "etc",
+    title: "Vercel",
+    url: "https://vercel.com",
+    description: "Next.js 앱을 배포하고 관리할 수 있는 플랫폼.",
+    thumbnail: "/vercel.svg",
+    createdAt: "2026-05-15",
+  },
+];
