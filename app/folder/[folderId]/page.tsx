@@ -18,9 +18,9 @@ export default async function FolderPage({
   const folderLinks = links.filter((link) => link.folderId === folderId);
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-black">
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <BookmarkBoard folders={folders} links={folderLinks} />
+      <BookmarkBoard links={folderLinks} />
     </div>
   );
 }

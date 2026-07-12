@@ -8,9 +8,7 @@ export default function FolderList({ folders }: { folders: Folder[] }) {
 
   if (folders.length === 0) {
     return (
-      <p className="px-3 text-sm text-zinc-400 dark:text-zinc-500">
-        폴더가 없습니다.
-      </p>
+      <p className="px-3 text-sm text-[var(--text-sub)]">폴더가 없습니다.</p>
     );
   }
 
@@ -23,10 +21,8 @@ export default function FolderList({ folders }: { folders: Folder[] }) {
           <li key={folder.id}>
             <Link
               href={`/folder/${folder.id}`}
-              className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
-                isSelected
-                  ? "bg-zinc-900 text-white dark:bg-zinc-50 dark:text-zinc-900"
-                  : "text-zinc-700 hover:bg-zinc-200/60 dark:text-zinc-300 dark:hover:bg-white/10"
+              className={`nav-item flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-[15px] ${
+                isSelected ? "nav-item-active" : "text-[var(--text)]"
               }`}
             >
               <FolderIcon className="shrink-0 opacity-70" />
