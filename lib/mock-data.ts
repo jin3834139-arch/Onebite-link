@@ -1,10 +1,10 @@
 import type { BookmarkLink, Folder } from "./types";
 
 export const folders: Folder[] = [
-  { id: "dev", name: "개발", linkCount: 3 },
-  { id: "design", name: "디자인", linkCount: 2 },
-  { id: "reading", name: "읽을거리", linkCount: 2 },
-  { id: "etc", name: "기타", linkCount: 1 },
+  { id: "dev", name: "개발" },
+  { id: "design", name: "디자인" },
+  { id: "reading", name: "읽을거리" },
+  { id: "etc", name: "기타" },
 ];
 
 export const links: BookmarkLink[] = [

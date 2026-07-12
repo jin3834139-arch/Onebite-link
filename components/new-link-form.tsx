@@ -1,14 +1,47 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import type { Folder } from "@/lib/types";
+import { useFolders } from "@/lib/folders-context";
+import { useLinks } from "@/lib/links-context";
 
-export default function NewLinkForm({ folders }: { folders: Folder[] }) {
+export default function NewLinkForm() {
+  const router = useRouter();
+  const { folders } = useFolders();
+  const { addLink } = useLinks();
   const [url, setUrl] = useState("");
   const [folderId, setFolderId] = useState(folders[0]?.id ?? "");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!url || !folderId) return;
+
+    setIsSubmitting(true);
+    setError("");
+
+    try {
+      const response = await fetch(`/api/og?url=${encodeURIComponent(url)}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error ?? "링크 정보를 가져오지 못했어요.");
+      }
+
+      addLink({
+        folderId,
+        title: data.title,
+        url: data.url,
+        description: data.description,
+        thumbnail: data.thumbnail || "/globe.svg",
+      });
+
+      router.push(`/folder/${folderId}`);
+    } catch {
+      setError("링크 정보를 가져오지 못했어요. 주소를 확인하고 다시 시도해주세요.");
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -50,12 +83,14 @@ export default function NewLinkForm({ folders }: { folders: Folder[] }) {
           </select>
         </div>
 
+        {error && <p className="text-sm text-[var(--error)]">{error}</p>}
+
         <button
           type="submit"
-          disabled={!url}
+          disabled={!url || isSubmitting}
           className="btn-primary mt-2 rounded-xl px-5 py-3.5 text-[17px] font-bold text-white"
         >
-          저장
+          {isSubmitting ? "가져오는 중..." : "저장"}
         </button>
       </form>
     </main>

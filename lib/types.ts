@@ -1,7 +1,6 @@
 export type Folder = {
   id: string;
   name: string;
-  linkCount: number;
 };
 
 export type BookmarkLink = {

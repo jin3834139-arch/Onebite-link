@@ -3,12 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useFolders } from "@/lib/folders-context";
+import { useLinks } from "@/lib/links-context";
 import FolderList from "./folder-list";
 
-export default function Sidebar({ totalCount }: { totalCount: number }) {
+export default function Sidebar() {
   const pathname = usePathname();
   const isAllActive = pathname === "/";
   const { folders } = useFolders();
+  const { links } = useLinks();
+  const totalCount = links.length;
 
   return (
     <aside className="hidden w-56 shrink-0 flex-col gap-6 sm:flex">

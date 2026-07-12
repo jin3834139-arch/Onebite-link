@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Folder } from "@/lib/types";
 import { useFolders } from "@/lib/folders-context";
+import { useLinks } from "@/lib/links-context";
 import { FolderIcon, PencilIcon, TrashIcon } from "./icons";
 import DeleteFolderModal from "./delete-folder-modal";
 import EditFolderModal from "./edit-folder-modal";
@@ -13,6 +14,7 @@ export default function FolderList({ folders }: { folders: Folder[] }) {
   const pathname = usePathname();
   const router = useRouter();
   const { deleteFolder } = useFolders();
+  const { links } = useLinks();
   const [pendingDelete, setPendingDelete] = useState<Folder | null>(null);
   const [pendingEdit, setPendingEdit] = useState<Folder | null>(null);
 
@@ -37,6 +39,9 @@ export default function FolderList({ folders }: { folders: Folder[] }) {
       <ul className="flex flex-col gap-1">
         {folders.map((folder) => {
           const isSelected = pathname === `/folder/${folder.id}`;
+          const linkCount = links.filter(
+            (link) => link.folderId === folder.id
+          ).length;
 
           return (
             <li key={folder.id} className="group relative">
@@ -49,7 +54,7 @@ export default function FolderList({ folders }: { folders: Folder[] }) {
                 <FolderIcon className="shrink-0 opacity-70" />
                 <span className="flex-1 truncate text-left">{folder.name}</span>
                 <span className="text-xs opacity-70 group-hover:hidden">
-                  {folder.linkCount}
+                  {linkCount}
                 </span>
               </Link>
               <div className="absolute right-2 top-1/2 hidden -translate-y-1/2 items-center gap-1 group-hover:flex">

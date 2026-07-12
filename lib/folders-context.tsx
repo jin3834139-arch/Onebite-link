@@ -17,10 +17,7 @@ export function FoldersProvider({ children }: { children: ReactNode }) {
   const [folders, setFolders] = useState<Folder[]>(initialFolders);
 
   function addFolder(name: string) {
-    setFolders((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), name, linkCount: 0 },
-    ]);
+    setFolders((prev) => [...prev, { id: crypto.randomUUID(), name }]);
   }
 
   function renameFolder(id: string, name: string) {
