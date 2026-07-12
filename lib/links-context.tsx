@@ -15,6 +15,7 @@ type NewLinkInput = {
 type LinksContextValue = {
   links: BookmarkLink[];
   addLink: (input: NewLinkInput) => void;
+  deleteLink: (id: string) => void;
 };
 
 const LinksContext = createContext<LinksContextValue | null>(null);
@@ -31,8 +32,12 @@ export function LinksProvider({ children }: { children: ReactNode }) {
     setLinks((prev) => [newLink, ...prev]);
   }
 
+  function deleteLink(id: string) {
+    setLinks((prev) => prev.filter((link) => link.id !== id));
+  }
+
   return (
-    <LinksContext.Provider value={{ links, addLink }}>
+    <LinksContext.Provider value={{ links, addLink, deleteLink }}>
       {children}
     </LinksContext.Provider>
   );
