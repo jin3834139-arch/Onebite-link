@@ -5,14 +5,16 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Folder } from "@/lib/types";
 import { useFolders } from "@/lib/folders-context";
-import { FolderIcon, TrashIcon } from "./icons";
+import { FolderIcon, PencilIcon, TrashIcon } from "./icons";
 import DeleteFolderModal from "./delete-folder-modal";
+import EditFolderModal from "./edit-folder-modal";
 
 export default function FolderList({ folders }: { folders: Folder[] }) {
   const pathname = usePathname();
   const router = useRouter();
   const { deleteFolder } = useFolders();
   const [pendingDelete, setPendingDelete] = useState<Folder | null>(null);
+  const [pendingEdit, setPendingEdit] = useState<Folder | null>(null);
 
   if (folders.length === 0) {
     return (
@@ -50,22 +52,43 @@ export default function FolderList({ folders }: { folders: Folder[] }) {
                   {folder.linkCount}
                 </span>
               </Link>
-              <button
-                type="button"
-                onClick={() => setPendingDelete(folder)}
-                aria-label={`${folder.name} 폴더 삭제`}
-                className={`absolute right-2 top-1/2 hidden -translate-y-1/2 rounded-lg p-1.5 group-hover:block ${
-                  isSelected
-                    ? "text-white hover:opacity-80"
-                    : "text-[var(--text-sub)] hover:text-[var(--error)]"
-                }`}
-              >
-                <TrashIcon />
-              </button>
+              <div className="absolute right-2 top-1/2 hidden -translate-y-1/2 items-center gap-1 group-hover:flex">
+                <button
+                  type="button"
+                  onClick={() => setPendingEdit(folder)}
+                  aria-label={`${folder.name} 폴더 수정`}
+                  className={`rounded-lg p-1.5 ${
+                    isSelected
+                      ? "text-white hover:opacity-80"
+                      : "text-[var(--text-sub)] hover:text-[var(--accent)]"
+                  }`}
+                >
+                  <PencilIcon />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPendingDelete(folder)}
+                  aria-label={`${folder.name} 폴더 삭제`}
+                  className={`rounded-lg p-1.5 ${
+                    isSelected
+                      ? "text-white hover:opacity-80"
+                      : "text-[var(--text-sub)] hover:text-[var(--error)]"
+                  }`}
+                >
+                  <TrashIcon />
+                </button>
+              </div>
             </li>
           );
         })}
       </ul>
+
+      {pendingEdit && (
+        <EditFolderModal
+          folder={pendingEdit}
+          onClose={() => setPendingEdit(null)}
+        />
+      )}
 
       {pendingDelete && (
         <DeleteFolderModal
