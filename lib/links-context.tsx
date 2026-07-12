@@ -12,9 +12,16 @@ type NewLinkInput = {
   thumbnail: string;
 };
 
+type LinkEditableFields = {
+  folderId: string;
+  title: string;
+  description: string;
+};
+
 type LinksContextValue = {
   links: BookmarkLink[];
   addLink: (input: NewLinkInput) => void;
+  updateLink: (id: string, updates: LinkEditableFields) => void;
   deleteLink: (id: string) => void;
 };
 
@@ -32,12 +39,18 @@ export function LinksProvider({ children }: { children: ReactNode }) {
     setLinks((prev) => [newLink, ...prev]);
   }
 
+  function updateLink(id: string, updates: LinkEditableFields) {
+    setLinks((prev) =>
+      prev.map((link) => (link.id === id ? { ...link, ...updates } : link))
+    );
+  }
+
   function deleteLink(id: string) {
     setLinks((prev) => prev.filter((link) => link.id !== id));
   }
 
   return (
-    <LinksContext.Provider value={{ links, addLink, deleteLink }}>
+    <LinksContext.Provider value={{ links, addLink, updateLink, deleteLink }}>
       {children}
     </LinksContext.Provider>
   );

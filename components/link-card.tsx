@@ -4,12 +4,14 @@ import Image from "next/image";
 import { useState } from "react";
 import type { BookmarkLink } from "@/lib/types";
 import { useLinks } from "@/lib/links-context";
-import { TrashIcon } from "./icons";
+import { PencilIcon, TrashIcon } from "./icons";
 import DeleteLinkModal from "./delete-link-modal";
+import EditLinkModal from "./edit-link-modal";
 
 export default function LinkCard({ link }: { link: BookmarkLink }) {
   const { deleteLink } = useLinks();
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const hostname = getHostname(link.url);
 
   return (
@@ -36,14 +38,28 @@ export default function LinkCard({ link }: { link: BookmarkLink }) {
         </div>
       </a>
 
-      <button
-        type="button"
-        onClick={() => setIsConfirmingDelete(true)}
-        aria-label={`${link.title} 링크 삭제`}
-        className="absolute right-3 top-3 hidden rounded-lg bg-white/90 p-1.5 text-[var(--text-sub)] hover:text-[var(--error)] group-hover:block"
-      >
-        <TrashIcon />
-      </button>
+      <div className="absolute right-3 top-3 hidden items-center gap-1 group-hover:flex">
+        <button
+          type="button"
+          onClick={() => setIsEditing(true)}
+          aria-label={`${link.title} 링크 수정`}
+          className="rounded-lg bg-white/90 p-1.5 text-[var(--text-sub)] hover:text-[var(--accent)]"
+        >
+          <PencilIcon />
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsConfirmingDelete(true)}
+          aria-label={`${link.title} 링크 삭제`}
+          className="rounded-lg bg-white/90 p-1.5 text-[var(--text-sub)] hover:text-[var(--error)]"
+        >
+          <TrashIcon />
+        </button>
+      </div>
+
+      {isEditing && (
+        <EditLinkModal link={link} onClose={() => setIsEditing(false)} />
+      )}
 
       {isConfirmingDelete && (
         <DeleteLinkModal
